@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Huy-Hung Dinh</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="icon" href="https://avatars1.githubusercontent.com/u/19660147?s=400&u=f62f161b4b6a003d5ba35ee353d6f4472daf80ea&v=4" type="image/x-icon">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700' rel='stylesheet' type='text/css'>
+        <style>
+            html, body {
+                overflow: hidden;
+                margin: 0;
+            }
+            body {
+                font-family: 'Open Sans', 'Helvetica Neue', 'Hiragino Sans GB', 'LiHei Pro', Arial, sans-serif;
+                color: #333;
+            }
+            #wrapper {
+                position: absolute;
+                left: 0;
+                width: 450px;
+                text-align: center;
+                top: 50%;
+                left: 50%;
+                margin-left: -225px;
+                margin-top: -180px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+            h1 {
+                font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+                font-weight: 700;
+                font-size: 30px;
+                letter-spacing: 9px;
+                white-space: nowrap ;
+                text-transform: uppercase;
+                margin: 12px 0;
+                left: 4px;
+            }
+            h2 {
+                color: #999;
+                font-weight: normal;
+                font-size: 15px;
+                letter-spacing: .12em;
+                margin-bottom: 30px;
+                left: 3px;
+            }
+            h1, h2 {
+                position: relative;
+            }
+            p {
+                font-size: 14px;
+                line-height: 2em;
+                margin: 0;
+                letter-spacing: 2px;
+            }
+            canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+            }
+            a {
+                color: #999;
+                text-decoration: none;
+                transition: color .2s ease;
+            }
+            a:hover {
+                color: rgb(25, 175, 32);
+            }
+            .wallet-address {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+                display: inline-block;
+                font-size: 12px;
+                letter-spacing: 1px;
+            }
+            .wallet-section {
+                margin-top: 20px;
+                padding-top: 15px;
+                border-top: 1px solid #eee;
+            }
+            @media (max-width: 480px) {
+                #wrapper {
+                    width: 90%;
+                    margin-left: -45%;
+                    margin-top: -200px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Huy-Hung Dinh</h1>
+            <h2>Programmer, English, Chinese Mandarin, Running, Reading, Photography, Freedom - Equanimity</h2>
+            <p><a href="https://github.com/hu2di" target="_blank">Github</a></p>
+            <p><a href="https://huyhungdinh.blogspot.com" target="_blank">Blogspot</a></p>
+            <p><a href="https://linkedin.com/in/huyhungdinh" target="_blank">LinkedIn</a></p>
+            <p><a href="https://goodreads.com/hebitaxy" target="_blank">Goodreads</a></p>
+            <p><a href="https://strava.com/athletes/hu2di" target="_blank">Strava</a></p>
+            <p><a href="https://duolingo.com/profile/hung.d.h" target="_blank">Duolingo</a></p>
+            <p><a href="https://instagram.com/hu2di" target="_blank">Instagram</a></p>
+            <p><a href="https://paypal.com/paypalme/hungdh" target="_blank">Paypal</a></p>
+            <div class="wallet-section">
+                <p><a href="#" onclick="copyAddress(event, '0x92D64B6b9E34AAb5FfAEb2731c07fff3c56221dB')" class="wallet-address">ETH/BNB/USDT (EVM): 0x92D64B6b9E34AAb5FfAEb2731c07fff3c56221dB</a></p>
+                <p><a href="#" onclick="copyAddress(event, 'Gf1GtnTnjNg3iLvpdsZdRtUGnEHStKKj3vuzvvqyQrhQ')" class="wallet-address">SOL (Solana): Gf1GtnTnjNg3iLvpdsZdRtUGnEHStKKj3vuzvvqyQrhQ</a></p>
+                <p><a href="#" onclick="copyAddress(event, 'bc1qmzuj4w34fej2t3w54cdzclj8ufd3lmr38xj7cq')" class="wallet-address">BTC (Bitcoin): bc1qmzuj4w34fej2t3w54cdzclj8ufd3lmr38xj7cq</a></p>
+            </div>
+        </div>
+        <canvas></canvas>
+        <script>
+            function copyAddress(event, address) {
+                event.preventDefault();
+                
+                if (navigator.clipboard && window.isSecureContext) {
+                    // Clipboard API
+                    navigator.clipboard.writeText(address).then(function() {
+                        showCopyMessage(address);
+                    }).catch(function(err) {
+                        fallbackCopyTextToClipboard(address);
+                    });
+                } else {
+                    // Fallback
+                    fallbackCopyTextToClipboard(address);
+                }
+            }
+            
+            function fallbackCopyTextToClipboard(text) {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.position = "fixed";
+                textArea.style.opacity = "0";
+                
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        showCopyMessage(text);
+                    }
+                } catch (err) {
+                    console.error('Fallback: Cannot copy', err);
+                }
+                
+                document.body.removeChild(textArea);
+            }
+            
+            function showCopyMessage(address) {
+                // Create temporary notification
+                const notification = document.createElement('div');
+                notification.textContent = 'Copied address: ' + address;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(0, 0, 0, 0.8);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    z-index: 1000;
+                    font-family: 'Open Sans', sans-serif;
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Remove notification after 2 seconds
+                setTimeout(function() {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 2000);
+            }
+        </script>
+    </body>
+</html>
